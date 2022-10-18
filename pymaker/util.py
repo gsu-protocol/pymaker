@@ -44,13 +44,13 @@ def http_response_summary(response) -> str:
 
 
 # CAUTION: Used by Transact class, this breaks applications running their own asyncio event loop.
-def synchronize(futures) -> list:
+async def synchronize(futures) -> list:
     if len(futures) > 0:
-        loop = asyncio.new_event_loop()
-        try:
-            return loop.run_until_complete(asyncio.gather(*futures, loop=loop))
-        finally:
-            loop.close()
+        # loop = asyncio.new_event_loop()
+        # try:
+        return await asyncio.gather(*futures)
+        # finally:
+        #     loop.close()
     else:
         return []
 

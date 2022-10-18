@@ -614,7 +614,7 @@ class Transact:
             A :py:class:`pymaker.Receipt` object if the transaction invocation was successful.
             `None` otherwise.
         """
-        return synchronize([self.transact_async(**kwargs)])[0]
+        return asyncio.run(synchronize([self.transact_async(**kwargs)]))[0]
 
     @_track_status
     async def transact_async(self, **kwargs) -> Optional[Receipt]:
@@ -825,7 +825,7 @@ class RecoveredTransact(Transact):
         raise NotImplementedError()
 
     def cancel(self, gas_price: GasPrice):
-        return synchronize([self.cancel_async(gas_price)])[0]
+        return asyncio.run(synchronize([self.cancel_async(gas_price)]))[0]
 
     async def cancel_async(self, gas_price: GasPrice):
         assert isinstance(gas_price, GasPrice)
